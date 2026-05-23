@@ -47,12 +47,16 @@ export default function MyCarsPage() {
     }
   };
 
-  const handleUpdateLocally = (updatedCar) => {
-    setCars(prev => prev.map(car => car._id === updatedCar._id ? updatedCar : car));
+  const handleUpdateSuccess = () => {
+    if (session?.user?.email) {
+      fetchMyCars(session.user.email);
+    }
   };
 
-  const handleDeleteLocally = (deletedCarId) => {
-    setCars(prev => prev.filter(car => car._id !== deletedCarId));
+  const handleDeleteSuccess = () => {
+    if (session?.user?.email) {
+      fetchMyCars(session.user.email);
+    }
   };
 
   if (isPending || (isLoading && session?.user)) {
@@ -129,14 +133,14 @@ export default function MyCarsPage() {
         isOpen={!!carToUpdate} 
         car={carToUpdate} 
         onClose={() => setCarToUpdate(null)} 
-        onUpdate={handleUpdateLocally}
+        onUpdate={handleUpdateSuccess}
       />
 
       <DeleteCarModal 
         isOpen={!!carToDelete} 
         car={carToDelete} 
         onClose={() => setCarToDelete(null)} 
-        onDelete={handleDeleteLocally}
+        onDelete={handleDeleteSuccess}
       />
     </div>
   );

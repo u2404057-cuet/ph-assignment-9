@@ -11,7 +11,7 @@ export default function DeleteCarModal({ car, isOpen, onClose, onDelete }) {
 
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
-      // The user will add the DELETE backend logic, but we send the request perfectly here
+
       const res = await fetch(`${apiUrl}/my-cars/${car._id}`, {
         method: "DELETE",
       });

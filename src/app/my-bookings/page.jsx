@@ -55,12 +55,14 @@ export default function MyBookingsPage() {
         throw new Error("Failed to cancel booking");
       }
 
-      // Remove from UI state
-      setBookings(prev => prev.filter(b => b._id !== bookingId));
+      // Refetch from backend instead of local UI state manipulation
       toast.success("Booking cancelled successfully");
+      if (session?.user?.email) {
+        fetchBookings(session.user.email);
+      }
     } catch (error) {
       console.error(error);
-      toast.error("Could not cancel the booking. Make sure the backend DELETE endpoint exists.");
+      toast.error("Could not cancel the booking.");
     }
   };
 

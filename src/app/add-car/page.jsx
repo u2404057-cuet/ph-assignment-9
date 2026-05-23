@@ -11,7 +11,7 @@ export default function AddCar() {
   const { data: session, isPending } = useSession();
   const router = useRouter();
 
-  // Default to localhost:8000 if env var is missing or not picked up by Next.js yet
+
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
   useEffect(() => {
@@ -34,7 +34,6 @@ export default function AddCar() {
       const formData = new FormData(e.target);
       const cars = Object.fromEntries(formData.entries());
       
-      // Basic formatting
       if (cars.dailyRentalPrice) {
         cars.dailyRentalPrice = Number(cars.dailyRentalPrice);
       }

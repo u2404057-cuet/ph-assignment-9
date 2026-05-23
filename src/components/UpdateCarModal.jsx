@@ -3,35 +3,24 @@ import toast from "react-hot-toast";
 
 export default function UpdateCarModal({ car, isOpen, onClose, onUpdate }) {
   const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    dailyRentalPrice: car?.dailyRentalPrice || "",
-    description: car?.description || "",
-    availability: car?.availability ? "Available" : "Booked",
-    imageURL: car?.imageURL || "",
-    carType: car?.carType || "",
-    location: car?.location || ""
-  });
 
   if (!isOpen || !car) return null;
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
+      const formData = new FormData(e.target);
+      const formValues = Object.fromEntries(formData.entries());
+
       const payload = {
-        ...formData,
-        dailyRentalPrice: Number(formData.dailyRentalPrice),
-        availability: formData.availability === "Available"
+        ...formValues,
+        dailyRentalPrice: Number(formValues.dailyRentalPrice),
+        availability: formValues.availability === "Available"
       };
 
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
-      // The user will add the PATCH backend logic, but we send the request perfectly here
       const res = await fetch(`${apiUrl}/my-cars/${car._id}`, {
         method: "PATCH",
         headers: {
@@ -43,8 +32,7 @@ export default function UpdateCarModal({ car, isOpen, onClose, onUpdate }) {
       if (!res.ok) throw new Error("Update failed");
 
       toast.success("Car updated successfully!");
-      // Optimistic update locally
-      onUpdate({ ...car, ...payload });
+      onUpdate();
       onClose();
     } catch (error) {
       console.error(error);
@@ -79,8 +67,7 @@ export default function UpdateCarModal({ car, isOpen, onClose, onUpdate }) {
               <input
                 type="number"
                 name="dailyRentalPrice"
-                value={formData.dailyRentalPrice}
-                onChange={handleChange}
+                defaultValue={car?.dailyRentalPrice || ""}
                 min="1"
                 className="w-full px-3 py-2 bg-[#0D0D0D] border border-[#2C2C2C] text-[#F5F5F5] rounded focus:outline-none focus:border-[#E63946]"
                 required
@@ -92,8 +79,7 @@ export default function UpdateCarModal({ car, isOpen, onClose, onUpdate }) {
               <label className="block text-sm font-medium text-[#F5F5F5] mb-1">Car Type</label>
               <select
                 name="carType"
-                value={formData.carType}
-                onChange={handleChange}
+                defaultValue={car?.carType || ""}
                 className="w-full px-3 py-2 bg-[#0D0D0D] border border-[#2C2C2C] text-[#F5F5F5] rounded focus:outline-none focus:border-[#E63946]"
                 required
               >
@@ -112,8 +98,7 @@ export default function UpdateCarModal({ car, isOpen, onClose, onUpdate }) {
               <input
                 type="text"
                 name="location"
-                value={formData.location}
-                onChange={handleChange}
+                defaultValue={car?.location || ""}
                 className="w-full px-3 py-2 bg-[#0D0D0D] border border-[#2C2C2C] text-[#F5F5F5] rounded focus:outline-none focus:border-[#E63946]"
                 required
               />
@@ -124,8 +109,7 @@ export default function UpdateCarModal({ car, isOpen, onClose, onUpdate }) {
               <label className="block text-sm font-medium text-[#F5F5F5] mb-1">Availability Status</label>
               <select
                 name="availability"
-                value={formData.availability}
-                onChange={handleChange}
+                defaultValue={car?.availability ? "Available" : "Booked"}
                 className="w-full px-3 py-2 bg-[#0D0D0D] border border-[#2C2C2C] text-[#F5F5F5] rounded focus:outline-none focus:border-[#E63946]"
                 required
               >
@@ -140,8 +124,7 @@ export default function UpdateCarModal({ car, isOpen, onClose, onUpdate }) {
               <input
                 type="url"
                 name="imageURL"
-                value={formData.imageURL}
-                onChange={handleChange}
+                defaultValue={car?.imageURL || ""}
                 className="w-full px-3 py-2 bg-[#0D0D0D] border border-[#2C2C2C] text-[#F5F5F5] rounded focus:outline-none focus:border-[#E63946]"
                 required
               />
@@ -152,8 +135,7 @@ export default function UpdateCarModal({ car, isOpen, onClose, onUpdate }) {
               <label className="block text-sm font-medium text-[#F5F5F5] mb-1">Description</label>
               <textarea
                 name="description"
-                value={formData.description}
-                onChange={handleChange}
+                defaultValue={car?.description || ""}
                 rows="3"
                 className="w-full px-3 py-2 bg-[#0D0D0D] border border-[#2C2C2C] text-[#F5F5F5] rounded focus:outline-none focus:border-[#E63946] resize-none"
                 required
