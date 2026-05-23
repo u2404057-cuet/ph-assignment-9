@@ -1,16 +1,33 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
+import { useSession } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 export default function AddCar() {
 
   const [isLoading, setIsLoading] = useState(false);
+  const { data: session, isPending } = useSession();
+  const router = useRouter();
+
   // Default to localhost:8000 if env var is missing or not picked up by Next.js yet
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
+  useEffect(() => {
+    // If auth is loaded and there is no session, redirect to login
+    if (!isPending && !session?.user) {
+      router.push("/login");
+    }
+  }, [session, isPending, router]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!session?.user) {
+      toast.error("You must be logged in to add a car");
+      return;
+    }
+    
     setIsLoading(true);
 
     try {
@@ -27,7 +44,12 @@ export default function AddCar() {
       // Convert Availability Status string to boolean for the database
       cars.availability = cars.availability === "Available";
 
-      const res = await fetch(`${apiUrl}/cars`, {
+      // Append User Information
+      cars.userId = session.user.id;
+      cars.userName = session.user.name;
+      cars.userEmail = session.user.email;
+
+      const res = await fetch(`${apiUrl}/my-cars`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
