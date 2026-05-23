@@ -67,7 +67,13 @@ export default async function CarDetailsPage({ params }) {
               <h1 className="text-5xl md:text-6xl font-['Bebas_Neue',_sans-serif] tracking-wide text-[#F5F5F5] uppercase">
                 {carModel || "Unknown Model"}
               </h1>
-              <div className="flex items-center gap-4">
+              <div className="flex flex-wrap items-center gap-4">
+                <span className="px-4 py-1.5 text-sm font-bold rounded-full uppercase tracking-wider bg-[#1A1A1A]/80 backdrop-blur-sm border border-[#2C2C2C] text-[#F5F5F5] flex items-center gap-2">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                  {car.booking_count || 0} {car.booking_count === 1 ? 'Booking' : 'Bookings'}
+                </span>
                 <span className={`px-4 py-1.5 text-sm font-bold rounded-full uppercase tracking-wider ${availability ? 'bg-[#E63946] text-white' : 'bg-[#2C2C2C] text-[#A0A0A0]'}`}>
                   {availability ? "Available Now" : "Currently Booked"}
                 </span>

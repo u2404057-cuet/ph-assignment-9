@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 export default function CarCard({ car }) {
-  const { _id, carModel, dailyRentalPrice, imageURL, location, availability, features } = car;
+  const { _id, carModel, dailyRentalPrice, imageURL, location, availability, features, booking_count } = car;
 
   return (
     <div className="bg-[#1A1A1A] border border-[#2C2C2C] rounded-xl overflow-hidden group hover:border-[#E63946] transition-colors duration-300 flex flex-col h-full">
@@ -40,13 +40,21 @@ export default function CarCard({ car }) {
           </div>
         </div>
 
-        {/* Location */}
-        <div className="flex items-center text-[#A0A0A0] text-sm font-['Outfit',_sans-serif] mb-4">
-          <svg className="w-4 h-4 mr-1 text-[#E63946]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-          </svg>
-          {location || "Location not specified"}
+        {/* Location and Bookings */}
+        <div className="flex justify-between items-center mb-4">
+          <div className="flex items-center text-[#A0A0A0] text-sm font-['Outfit',_sans-serif]">
+            <svg className="w-4 h-4 mr-1 text-[#E63946]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            {location || "Location not specified"}
+          </div>
+          <div className="flex items-center text-[#A0A0A0] text-sm font-['Outfit',_sans-serif]">
+            <svg className="w-4 h-4 mr-1 text-[#E63946]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+            {booking_count || 0} {booking_count === 1 ? 'Booking' : 'Bookings'}
+          </div>
         </div>
 
         {/* Features Preview (Up to 3) */}
