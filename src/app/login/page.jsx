@@ -32,7 +32,7 @@ export default function LoginPage() {
       }
       
       toast.success("Login successful!");
-      router.push('/');
+      redirect("/");
     } catch (error) {
       toast.error(error.message || "Failed to log in");
     } finally {
