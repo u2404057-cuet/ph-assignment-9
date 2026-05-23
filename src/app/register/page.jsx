@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { signUp, signIn } from "@/lib/auth-client";
 
@@ -48,7 +48,7 @@ export default function RegisterPage() {
       }
 
       toast.success("Registration successful!");
-      redirect("/login");
+      router.push("/login");
     } catch (error) {
       toast.error(error.message || "Registration failed");
     } finally {

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { signIn } from "@/lib/auth-client";
 
@@ -32,7 +32,7 @@ export default function LoginPage() {
       }
       
       toast.success("Login successful!");
-      redirect("/");
+      router.push("/");
     } catch (error) {
       toast.error(error.message || "Failed to log in");
     } finally {
