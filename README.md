@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# DriveFleet — Car Rental Platform
+
+A full-stack premium car rental platform built with Next.js and Express. Users can browse vehicles, book cars, manage their listings, and handle everything through a clean dark automotive-themed interface.
+
+🔗 **Live Site:** [https://ph-assignment-9-indol.vercel.app](https://ph-assignment-9-indol.vercel.app)  
+🖥️ **Server Repo:** [https://github.com/u2404057-cuet/ph-assignment-9-server](https://github.com/u2404057-cuet/ph-assignment-9-server)
+
+---
+
+## Features
+
+- Secure email/password and Google OAuth authentication via Better Auth with JWT stored in HTTP-only cookies
+- Full car listing management — add, edit, and delete your own vehicles with live availability toggling
+- Booking system with driver request option, special notes, and automatic booking count tracking
+- Search by car name and filter by car type using MongoDB `$regex` on the Explore Cars page
+- Clean responsive UI across mobile, tablet, and desktop built with HeroUI and Tailwind CSS
+
+---
+
+## Tech Stack
+
+| Side | Stack |
+|------|-------|
+| Frontend | Next.js (Pages Router), Tailwind CSS, HeroUI |
+| Backend | Node.js, Express.js |
+| Database | MongoDB, Mongoose |
+| Auth | Better Auth, Google OAuth 2.0, JWT |
+
+---
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+git clone https://github.com/u2404057-cuet/ph-assignment-9.git
+cd ph-assignment-9
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```env
+MONGODB_URI=
+BETTER_AUTH_SECRET=
+BETTER_AUTH_URL=http://localhost:3000
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+```
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Author
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Rahimul Hoque** — Student ID: 2404057, CUET
