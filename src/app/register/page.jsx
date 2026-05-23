@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { signUp, signIn } from "@/lib/auth-client";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -35,21 +36,35 @@ export default function RegisterPage() {
     setIsLoading(true);
 
     try {
-      // Mock register logic
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const { data, error } = await signUp.email({
+        email,
+        password,
+        name,
+        image: photoURL,
+      });
+
+      if (error) {
+        throw new Error(error.message || "Registration failed");
+      }
+
       toast.success("Registration successful!");
       router.push('/login');
     } catch (error) {
       toast.error(error.message || "Registration failed");
+    } finally {
       setIsLoading(false);
     }
   };
 
   const handleGoogleLogin = async () => {
     try {
-      await new Promise(resolve => setTimeout(resolve, 500));
-      toast.success("Google login successful!");
-      router.push('/');
+      const { data, error } = await signIn.social({
+        provider: "google",
+        callbackURL: "/"
+      });
+
+      if (error) throw error;
+
     } catch (error) {
       toast.error("Google login failed");
     }

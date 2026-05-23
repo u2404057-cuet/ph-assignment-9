@@ -3,6 +3,8 @@
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import { useSession, signOut } from '@/lib/auth-client';
+import toast from 'react-hot-toast';
 
 export default function Navbar() {
   const router = useRouter();
@@ -11,20 +13,16 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  // MOCK SESSION FOR UI DEVELOPMENT
-  // Swap this with your actual better-auth useSession once configured:
-  // const { data: session } = useSession();
-  const session = null; // Set this to { user: { name: 'Admin', image: '' } } to test logged-in state
+  const { data: session } = useSession();
 
   const handleLogout = async () => {
-    // try {
-    //   await signOut();
-    //   toast.success('Logged out successfully');
-    //   router.push('/');
-    // } catch (error) {
-    //   toast.error('Failed to logout');
-    // }
-    console.log("Logout triggered");
+    try {
+      await signOut();
+      toast.success('Logged out successfully');
+      router.push('/');
+    } catch (error) {
+      toast.error('Failed to logout');
+    }
   };
 
   // Close dropdown when clicking outside

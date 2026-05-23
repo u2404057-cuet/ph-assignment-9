@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { signIn } from "@/lib/auth-client";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -21,23 +22,33 @@ export default function LoginPage() {
     console.log(user);
     
     try {
-      // Mock login logic
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const { data, error } = await signIn.email({
+        email: user.email,
+        password: user.password,
+      });
+
+      if (error) {
+        throw new Error(error.message || "Invalid credentials");
+      }
       
       toast.success("Login successful!");
       router.push('/');
     } catch (error) {
       toast.error(error.message || "Failed to log in");
+    } finally {
       setIsLoading(false);
     }
   };
 
   const handleGoogleLogin = async () => {
     try {
-      // Mock Google login
-      await new Promise(resolve => setTimeout(resolve, 500));
-      toast.success("Google login successful!");
-      router.push('/');
+      const { data, error } = await signIn.social({
+        provider: "google",
+        callbackURL: "/"
+      });
+
+      if (error) throw error;
+
     } catch (error) {
       toast.error("Google login failed");
     }
