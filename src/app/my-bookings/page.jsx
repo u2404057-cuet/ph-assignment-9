@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useSession } from "@/lib/auth-client";
 import BookedCarCard from "@/components/BookedCarCard";
 import Link from "next/link";
-import toast from "react-hot-toast";
+import { addToast } from "@heroui/toast";
 import { useRouter } from "next/navigation";
 
 export default function MyBookingsPage() {
@@ -34,8 +34,7 @@ export default function MyBookingsPage() {
       const data = await res.json();
       setBookings(data);
     } catch (error) {
-      console.error(error);
-      toast.error("Could not load your bookings.");
+      addToast({ title: "Could not load your bookings.", color: "danger" });
     } finally {
       setIsLoading(false);
     }
@@ -56,13 +55,13 @@ export default function MyBookingsPage() {
       }
 
       // Refetch from backend instead of local UI state manipulation
-      toast.success("Booking cancelled successfully");
+      addToast({ title: "Booking cancelled successfully", color: "success" });
       if (session?.user?.email) {
         fetchBookings(session.user.email);
       }
     } catch (error) {
       console.error(error);
-      toast.error("Could not cancel the booking.");
+      addToast({ title: "Could not cancel the booking.", color: "danger" });
     }
   };
 

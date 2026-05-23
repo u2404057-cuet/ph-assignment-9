@@ -3,15 +3,11 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
+import { addToast } from "@heroui/toast";
 import { signUp, signIn } from "@/lib/auth-client";
 
 export default function RegisterPage() {
   const router = useRouter();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [photoURL, setPhotoURL] = useState("");
-  const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -24,11 +20,15 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const user = Object.fromEntries(formData.entries());
+    console.log(user);
     
-    const error = validatePassword(password);
+    const error = validatePassword(user.password);
     if (error) {
       setPasswordError(error);
-      toast.error(error);
+      addToast({ title: error, color: "danger" });
       return;
     }
     
@@ -37,20 +37,20 @@ export default function RegisterPage() {
 
     try {
       const { data, error } = await signUp.email({
-        email,
-        password,
-        name,
-        image: photoURL,
+        email: user.email,
+        password: user.password,
+        name: user.name,
+        image: user.photoURL,
       });
 
       if (error) {
         throw new Error(error.message || "Registration failed");
       }
 
-      toast.success("Registration successful!");
+      addToast({ title: "Registration successful!", color: "success" });
       router.push("/login");
     } catch (error) {
-      toast.error(error.message || "Registration failed");
+      addToast({ title: error.message || "Registration failed", color: "danger" });
     } finally {
       setIsLoading(false);
     }
@@ -66,7 +66,7 @@ export default function RegisterPage() {
       if (error) throw error;
 
     } catch (error) {
-      toast.error("Google login failed");
+      addToast({ title: "Google login failed", color: "danger" });
     }
   };
 
@@ -101,8 +101,6 @@ export default function RegisterPage() {
                 type="text"
                 autoComplete="name"
                 required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
                 className="appearance-none relative block w-full px-4 py-3 bg-[#1A1A1A] border border-[#2C2C2C] text-[#F5F5F5] placeholder-[#A0A0A0] rounded-md focus:outline-none focus:ring-1 focus:ring-[#E63946] focus:border-[#E63946] transition-colors sm:text-sm"
                 placeholder="John Doe"
               />
@@ -117,8 +115,6 @@ export default function RegisterPage() {
                 type="email"
                 autoComplete="email"
                 required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
                 className="appearance-none relative block w-full px-4 py-3 bg-[#1A1A1A] border border-[#2C2C2C] text-[#F5F5F5] placeholder-[#A0A0A0] rounded-md focus:outline-none focus:ring-1 focus:ring-[#E63946] focus:border-[#E63946] transition-colors sm:text-sm"
                 placeholder="name@example.com"
               />
@@ -132,8 +128,6 @@ export default function RegisterPage() {
                 name="photoURL"
                 type="url"
                 required
-                value={photoURL}
-                onChange={(e) => setPhotoURL(e.target.value)}
                 className="appearance-none relative block w-full px-4 py-3 bg-[#1A1A1A] border border-[#2C2C2C] text-[#F5F5F5] placeholder-[#A0A0A0] rounded-md focus:outline-none focus:ring-1 focus:ring-[#E63946] focus:border-[#E63946] transition-colors sm:text-sm"
                 placeholder="https://example.com/photo.jpg"
               />
@@ -148,17 +142,12 @@ export default function RegisterPage() {
                 type="password"
                 autoComplete="new-password"
                 required
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
+                onChange={() => {
                   if (passwordError) setPasswordError("");
                 }}
                 className={`appearance-none relative block w-full px-4 py-3 bg-[#1A1A1A] border ${passwordError ? 'border-[#E63946]' : 'border-[#2C2C2C]'} text-[#F5F5F5] placeholder-[#A0A0A0] rounded-md focus:outline-none focus:ring-1 focus:ring-[#E63946] focus:border-[#E63946] transition-colors sm:text-sm`}
                 placeholder="••••••••"
               />
-              {passwordError && (
-                <p className="mt-1 text-sm text-[#E63946]">{passwordError}</p>
-              )}
             </div>
           </div>
 

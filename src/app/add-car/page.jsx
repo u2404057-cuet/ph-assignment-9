@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import toast from "react-hot-toast";
+import { addToast } from "@heroui/toast";
 import { useSession } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 
@@ -24,7 +24,7 @@ export default function AddCar() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!session?.user) {
-      toast.error("You must be logged in to add a car");
+      addToast({ title: "You must be logged in to add a car", color: "danger" });
       return;
     }
     
@@ -57,14 +57,14 @@ export default function AddCar() {
       });
 
       if (res.ok) {
-        toast.success("Car added to Fleet successfully!");
+        addToast({ title: "Car added to Fleet successfully!", color: "success" });
         e.target.reset(); // Clear the form
       } else {
-        toast.error("Failed to add car. Server responded with an error.");
+        addToast({ title: "Failed to add car. Server responded with an error.", color: "danger" });
       }
     } catch (error) {
       console.error("Submission Error:", error);
-      toast.error("Error: Could not connect to backend server.");
+      addToast({ title: "Error: Could not connect to backend server.", color: "danger" });
     } finally {
       setIsLoading(false);
     }

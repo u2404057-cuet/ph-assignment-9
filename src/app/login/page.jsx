@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
+import { addToast } from "@heroui/toast";
 import { signIn } from "@/lib/auth-client";
 
 export default function LoginPage() {
@@ -18,8 +18,6 @@ export default function LoginPage() {
 
     const formData = new FormData(e.target);
     const user = Object.fromEntries(formData.entries());
-
-    console.log(user);
     
     try {
       const { data, error } = await signIn.email({
@@ -31,10 +29,10 @@ export default function LoginPage() {
         throw new Error(error.message || "Invalid credentials");
       }
       
-      toast.success("Login successful!");
+      addToast({ title: "Login successful!", color: "success" });
       router.push("/");
     } catch (error) {
-      toast.error(error.message || "Failed to log in");
+      addToast({ title: error.message || "Failed to log in", color: "danger" });
     } finally {
       setIsLoading(false);
     }
@@ -50,7 +48,7 @@ export default function LoginPage() {
       if (error) throw error;
 
     } catch (error) {
-      toast.error("Google login failed");
+      addToast({ title: "Google login failed", color: "danger" });
     }
   };
 

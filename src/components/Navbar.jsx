@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useSession, signOut } from '@/lib/auth-client';
-import toast from 'react-hot-toast';
+import { addToast } from '@heroui/toast';
 
 export default function Navbar() {
   const router = useRouter();
@@ -18,10 +18,10 @@ export default function Navbar() {
   const handleLogout = async () => {
     try {
       await signOut();
-      toast.success('Logged out successfully');
+      addToast({ title: 'Logged out successfully', color: "success" });
       router.push('/');
     } catch (error) {
-      toast.error('Failed to logout');
+      addToast({ title: 'Failed to logout', color: "danger" });
     }
   };
 

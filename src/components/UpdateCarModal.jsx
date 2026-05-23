@@ -1,5 +1,5 @@
 import { useState } from "react";
-import toast from "react-hot-toast";
+import { addToast } from "@heroui/toast";
 
 export default function UpdateCarModal({ car, isOpen, onClose, onUpdate }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -31,12 +31,12 @@ export default function UpdateCarModal({ car, isOpen, onClose, onUpdate }) {
 
       if (!res.ok) throw new Error("Update failed");
 
-      toast.success("Car updated successfully!");
+      addToast({ title: "Car updated successfully!", color: "success" });
       onUpdate();
       onClose();
     } catch (error) {
       console.error(error);
-      toast.error("Failed to update car. Did you add the backend logic?");
+      addToast({ title: "Failed to update car. Did you add the backend logic?", color: "danger" });
     } finally {
       setIsLoading(false);
     }

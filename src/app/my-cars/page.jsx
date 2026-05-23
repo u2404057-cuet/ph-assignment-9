@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useSession } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
+import { addToast } from "@heroui/toast";
 import Link from "next/link";
 import MyCarCard from "@/components/MyCarCard";
 import UpdateCarModal from "@/components/UpdateCarModal";
@@ -40,8 +40,7 @@ export default function MyCarsPage() {
       const data = await res.json();
       setCars(data);
     } catch (error) {
-      console.error(error);
-      toast.error("Could not load your cars.");
+      addToast({ title: "Could not load your cars.", color: "danger" });
     } finally {
       setIsLoading(false);
     }
