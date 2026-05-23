@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { addToast } from "@heroui/toast";
+import { toast } from "@heroui/react";
 import { signIn } from "@/lib/auth-client";
 
 export default function LoginPage() {
@@ -28,11 +28,10 @@ export default function LoginPage() {
       if (error) {
         throw new Error(error.message || "Invalid credentials");
       }
-      
-      addToast({ title: "Login successful!", color: "success" });
+      toast.success("Login successful!");
       router.push("/");
     } catch (error) {
-      addToast({ title: error.message || "Failed to log in", color: "danger" });
+      toast.danger(error.message || "Failed to log in");
     } finally {
       setIsLoading(false);
     }
@@ -48,7 +47,7 @@ export default function LoginPage() {
       if (error) throw error;
 
     } catch (error) {
-      addToast({ title: "Google login failed", color: "danger" });
+      toast.danger("Google login failed");
     }
   };
 

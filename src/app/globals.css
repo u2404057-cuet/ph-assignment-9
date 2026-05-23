@@ -1,5 +1,3 @@
 @import "tailwindcss";
 @plugin "daisyui";
-@plugin "@heroui/theme";
-@source "../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}";
-
+@import "@heroui/styles"; 

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useSession } from "@/lib/auth-client";
-import { addToast } from "@heroui/toast";
+import { toast } from "@heroui/react";
 
 export default function BookingWidget({ car }) {
   const { data: session } = useSession();
@@ -10,7 +10,7 @@ export default function BookingWidget({ car }) {
 
   const handleBooking = async () => {
     if (!session?.user) {
-      addToast({ title: "Please log in to book a car", color: "danger" });
+      toast.danger("Please log in to book a car");
       return;
     }
 
@@ -43,10 +43,10 @@ export default function BookingWidget({ car }) {
         throw new Error("Failed to create booking");
       }
 
-      addToast({ title: `Successfully booked ${car.carModel}!`, color: "success" });
+      toast.success(`Successfully booked ${car.carModel}!`);
     } catch (error) {
       console.error(error);
-      addToast({ title: "Booking failed. Please try again.", color: "danger" });
+      toast.danger("Booking failed. Please try again.");
     } finally {
       setIsLoading(false);
     }

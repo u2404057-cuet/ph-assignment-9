@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { addToast } from "@heroui/toast";
+import { toast } from "@heroui/react";
 import { signUp, signIn } from "@/lib/auth-client";
 
 export default function RegisterPage() {
@@ -28,7 +28,7 @@ export default function RegisterPage() {
     const error = validatePassword(user.password);
     if (error) {
       setPasswordError(error);
-      addToast({ title: error, color: "danger" });
+      toast.danger(error);
       return;
     }
     
@@ -47,10 +47,10 @@ export default function RegisterPage() {
         throw new Error(error.message || "Registration failed");
       }
 
-      addToast({ title: "Registration successful!", color: "success" });
+      toast.success("Registration successful!");
       router.push("/login");
     } catch (error) {
-      addToast({ title: error.message || "Registration failed", color: "danger" });
+      toast.danger(error.message || "Registration failed");
     } finally {
       setIsLoading(false);
     }
@@ -66,7 +66,7 @@ export default function RegisterPage() {
       if (error) throw error;
 
     } catch (error) {
-      addToast({ title: "Google login failed", color: "danger" });
+      toast.danger("Google login failed");
     }
   };
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { addToast } from "@heroui/toast";
+import { toast } from "@heroui/react";
 
 export default function DeleteCarModal({ car, isOpen, onClose, onDelete }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -18,12 +18,12 @@ export default function DeleteCarModal({ car, isOpen, onClose, onDelete }) {
 
       if (!res.ok) throw new Error("Delete failed");
 
-      addToast({ title: "Car deleted successfully!", color: "success" });
+      toast.success("Car deleted successfully!");
       onDelete(car._id);
       onClose();
     } catch (error) {
       console.error(error);
-      addToast({ title: "Failed to delete car. Did you add the backend logic?", color: "danger" });
+      toast.danger("Failed to delete car. Did you add the backend logic?");
     } finally {
       setIsLoading(false);
     }
