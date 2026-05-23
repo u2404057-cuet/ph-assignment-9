@@ -3,9 +3,6 @@
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-// Uncomment these when you have set up your auth client and toast:
-// import { useSession, signOut } from '@/lib/auth-client';
-// import toast from 'react-hot-toast';
 
 export default function Navbar() {
   const router = useRouter();
@@ -41,10 +38,14 @@ export default function Navbar() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const navLinks = [
+  const baseLinks = [
     { name: 'Home', path: '/' },
-    { name: 'Cars', path: '/cars' },
+    { name: 'Explore Cars', path: '/cars' },
   ];
+
+  const navLinks = session 
+    ? [...baseLinks, { name: 'Add Car', path: '/add-car' }, { name: 'My Bookings', path: '/my-bookings' }]
+    : baseLinks;
 
   return (
     <nav className="sticky top-0 z-50 bg-[#0D0D0D] border-b border-[#2C2C2C] w-full">
