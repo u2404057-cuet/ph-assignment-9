@@ -80,8 +80,13 @@ export default function MyBookingsPage() {
       {/* Header Section */}
       <section className="bg-[#1A1A1A] border-b border-[#2C2C2C] py-16 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <h1 className="text-4xl md:text-5xl font-['Bebas_Neue',_sans-serif] tracking-wide text-[#F5F5F5] mb-2">
-            MY <span className="text-[#E63946]">BOOKINGS</span>
+          <h1 className="text-4xl md:text-5xl font-['Bebas_Neue',_sans-serif] tracking-wide text-[#F5F5F5] mb-2 flex items-center gap-4">
+            <span>MY <span className="text-[#E63946]">BOOKINGS</span></span>
+            {bookings.length > 0 && (
+              <span className="px-4 py-1 text-xl font-['Outfit',_sans-serif] font-medium bg-[#E63946]/10 border border-[#E63946]/30 text-[#E63946] rounded-full">
+                {bookings.length} {bookings.length === 1 ? 'Total Booking' : 'Total Bookings'}
+              </span>
+            )}
           </h1>
           <p className="text-[#A0A0A0] max-w-2xl text-lg">
             Manage all your upcoming and past vehicle reservations here.
