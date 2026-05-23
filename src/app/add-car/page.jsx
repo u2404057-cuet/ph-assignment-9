@@ -21,10 +21,11 @@ export default function AddCar() {
       if (cars.dailyRentalPrice) {
         cars.dailyRentalPrice = Number(cars.dailyRentalPrice);
       }
-      if (cars.features) {
-        cars.features = cars.features.split(',').map(f => f.trim()).filter(f => f);
+      if (cars.seatCapacity) {
+        cars.seatCapacity = Number(cars.seatCapacity);
       }
-      cars.availability = cars.availability === "on";
+      // Convert Availability Status string to boolean for the database
+      cars.availability = cars.availability === "Available";
 
       const res = await fetch(`${apiUrl}/cars`, {
         method: "POST",
@@ -50,7 +51,7 @@ export default function AddCar() {
 
 
   return (
-    <div className="flex-1 bg-[#0D0D0D] py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="flex-1 bg-[#0D0D0D] py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden font-['Outfit',_sans-serif]">
       {/* Decorative background elements */}
       <div className="absolute top-1/4 right-0 w-64 h-64 bg-[#E63946] rounded-full filter blur-[128px] opacity-10 pointer-events-none"></div>
 
@@ -66,72 +67,96 @@ export default function AddCar() {
           <h1 className="text-4xl font-['Bebas_Neue',_sans-serif] tracking-wide text-[#F5F5F5]">
             ADD A <span className="text-[#E63946]">CAR</span>
           </h1>
-          <p className="mt-2 text-sm font-['Outfit',_sans-serif] text-[#A0A0A0]">
+          <p className="mt-2 text-sm text-[#A0A0A0]">
             Enter the details of the vehicle you want to list on DriveFleet.
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6 font-['Outfit',_sans-serif]">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             
-            {/* Car Model */}
+            {/* Car Name */}
             <div>
-              <label className="block text-sm font-medium text-[#F5F5F5] mb-1">Car Model</label>
+              <label className="block text-sm font-medium text-[#F5F5F5] mb-1">Car Name</label>
               <input
                 type="text"
                 name="carModel"
                 placeholder="e.g. BMW M4 Competition"
-                className="w-full px-4 py-3 bg-[#1A1A1A] border border-[#2C2C2C] text-[#F5F5F5] placeholder-[#A0A0A0] rounded-md focus:outline-none focus:ring-1 focus:ring-[#E63946] focus:border-[#E63946] transition-colors"
+                className="w-full px-4 py-3 bg-[#0D0D0D] border border-[#2C2C2C] text-[#F5F5F5] placeholder-[#A0A0A0] rounded-md focus:outline-none focus:ring-1 focus:ring-[#E63946] focus:border-[#E63946] transition-colors"
                 required
               />
             </div>
 
-            {/* Daily Rental Price */}
+            {/* Daily Rent Price */}
             <div>
-              <label className="block text-sm font-medium text-[#F5F5F5] mb-1">Daily Rental Price ($)</label>
+              <label className="block text-sm font-medium text-[#F5F5F5] mb-1">Daily Rent Price ($)</label>
               <input
                 type="number"
                 name="dailyRentalPrice"
                 placeholder="e.g. 150"
                 min="1"
-                className="w-full px-4 py-3 bg-[#1A1A1A] border border-[#2C2C2C] text-[#F5F5F5] placeholder-[#A0A0A0] rounded-md focus:outline-none focus:ring-1 focus:ring-[#E63946] focus:border-[#E63946] transition-colors"
+                className="w-full px-4 py-3 bg-[#0D0D0D] border border-[#2C2C2C] text-[#F5F5F5] placeholder-[#A0A0A0] rounded-md focus:outline-none focus:ring-1 focus:ring-[#E63946] focus:border-[#E63946] transition-colors"
                 required
               />
             </div>
 
-            {/* Vehicle Registration Number */}
+            {/* Car Type */}
             <div>
-              <label className="block text-sm font-medium text-[#F5F5F5] mb-1">Registration Number</label>
+              <label className="block text-sm font-medium text-[#F5F5F5] mb-1">Car Type</label>
+              <select
+                name="carType"
+                defaultValue=""
+                className="w-full px-4 py-3 bg-[#0D0D0D] border border-[#2C2C2C] text-[#F5F5F5] rounded-md focus:outline-none focus:ring-1 focus:ring-[#E63946] focus:border-[#E63946] transition-colors"
+                required
+              >
+                <option value="" disabled>Select Car Type</option>
+                <option value="SUV">SUV</option>
+                <option value="Sedan">Sedan</option>
+                <option value="Hatchback">Hatchback</option>
+                <option value="Luxury">Luxury</option>
+                <option value="Sports">Sports</option>
+                <option value="Convertible">Convertible</option>
+              </select>
+            </div>
+
+            {/* Seat Capacity */}
+            <div>
+              <label className="block text-sm font-medium text-[#F5F5F5] mb-1">Seat Capacity</label>
               <input
-                type="text"
-                name="vehicleRegistrationNumber"
-                placeholder="e.g. XYZ-1234"
-                className="w-full px-4 py-3 bg-[#1A1A1A] border border-[#2C2C2C] text-[#F5F5F5] placeholder-[#A0A0A0] rounded-md focus:outline-none focus:ring-1 focus:ring-[#E63946] focus:border-[#E63946] transition-colors"
+                type="number"
+                name="seatCapacity"
+                placeholder="e.g. 5"
+                min="1"
+                max="15"
+                className="w-full px-4 py-3 bg-[#0D0D0D] border border-[#2C2C2C] text-[#F5F5F5] placeholder-[#A0A0A0] rounded-md focus:outline-none focus:ring-1 focus:ring-[#E63946] focus:border-[#E63946] transition-colors"
                 required
               />
             </div>
 
-            {/* Location */}
+            {/* Pickup Location */}
             <div>
-              <label className="block text-sm font-medium text-[#F5F5F5] mb-1">Location</label>
+              <label className="block text-sm font-medium text-[#F5F5F5] mb-1">Pickup Location</label>
               <input
                 type="text"
                 name="location"
-                placeholder="e.g. New York, NY"
-                className="w-full px-4 py-3 bg-[#1A1A1A] border border-[#2C2C2C] text-[#F5F5F5] placeholder-[#A0A0A0] rounded-md focus:outline-none focus:ring-1 focus:ring-[#E63946] focus:border-[#E63946] transition-colors"
+                placeholder="e.g. Dhaka, Bangladesh"
+                className="w-full px-4 py-3 bg-[#0D0D0D] border border-[#2C2C2C] text-[#F5F5F5] placeholder-[#A0A0A0] rounded-md focus:outline-none focus:ring-1 focus:ring-[#E63946] focus:border-[#E63946] transition-colors"
                 required
               />
             </div>
 
-            {/* Features */}
-            <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-[#F5F5F5] mb-1">Features</label>
-              <input
-                type="text"
-                name="features"
-                placeholder="e.g. GPS, Leather Seats, Backup Camera (comma separated)"
-                className="w-full px-4 py-3 bg-[#1A1A1A] border border-[#2C2C2C] text-[#F5F5F5] placeholder-[#A0A0A0] rounded-md focus:outline-none focus:ring-1 focus:ring-[#E63946] focus:border-[#E63946] transition-colors"
-              />
+            {/* Availability Status */}
+            <div>
+              <label className="block text-sm font-medium text-[#F5F5F5] mb-1">Availability Status</label>
+              <select
+                name="availability"
+                defaultValue="Available"
+                className="w-full px-4 py-3 bg-[#0D0D0D] border border-[#2C2C2C] text-[#F5F5F5] rounded-md focus:outline-none focus:ring-1 focus:ring-[#E63946] focus:border-[#E63946] transition-colors"
+                required
+              >
+                <option value="Available">Available</option>
+                <option value="Booked">Booked</option>
+              </select>
             </div>
 
             {/* Image URL */}
@@ -140,8 +165,8 @@ export default function AddCar() {
               <input
                 type="url"
                 name="imageURL"
-                placeholder="https://example.com/car.jpg"
-                className="w-full px-4 py-3 bg-[#1A1A1A] border border-[#2C2C2C] text-[#F5F5F5] placeholder-[#A0A0A0] rounded-md focus:outline-none focus:ring-1 focus:ring-[#E63946] focus:border-[#E63946] transition-colors"
+                placeholder="https://i.ibb.co/example.jpg"
+                className="w-full px-4 py-3 bg-[#0D0D0D] border border-[#2C2C2C] text-[#F5F5F5] placeholder-[#A0A0A0] rounded-md focus:outline-none focus:ring-1 focus:ring-[#E63946] focus:border-[#E63946] transition-colors"
                 required
               />
             </div>
@@ -153,23 +178,11 @@ export default function AddCar() {
                 name="description"
                 rows="4"
                 placeholder="Tell us more about this car..."
-                className="w-full px-4 py-3 bg-[#1A1A1A] border border-[#2C2C2C] text-[#F5F5F5] placeholder-[#A0A0A0] rounded-md focus:outline-none focus:ring-1 focus:ring-[#E63946] focus:border-[#E63946] transition-colors resize-none"
+                className="w-full px-4 py-3 bg-[#0D0D0D] border border-[#2C2C2C] text-[#F5F5F5] placeholder-[#A0A0A0] rounded-md focus:outline-none focus:ring-1 focus:ring-[#E63946] focus:border-[#E63946] transition-colors resize-none"
                 required
               ></textarea>
             </div>
             
-            {/* Availability Checkbox */}
-            <div className="md:col-span-2 flex items-center">
-              <input
-                type="checkbox"
-                id="availability"
-                name="availability"
-                className="h-4 w-4 bg-[#1A1A1A] border-[#2C2C2C] rounded text-[#E63946] focus:ring-[#E63946] focus:ring-offset-[#1A1A1A] cursor-pointer"
-              />
-              <label htmlFor="availability" className="ml-2 block text-sm text-[#F5F5F5] cursor-pointer">
-                Available for immediate rental
-              </label>
-            </div>
           </div>
 
           <button
