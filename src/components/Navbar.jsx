@@ -42,7 +42,7 @@ export default function Navbar() {
   ];
 
   const navLinks = session 
-    ? [...baseLinks, { name: 'Add Car', path: '/add-car' }, { name: 'My Bookings', path: '/my-bookings' }]
+    ? [...baseLinks, { name: 'Add Car', path: '/add-car' }, { name: 'My Bookings', path: '/my-bookings' }, {name: 'My Cars', path: '/my-cars'}]
     : baseLinks;
 
   return (
