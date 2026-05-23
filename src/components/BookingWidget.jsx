@@ -24,6 +24,7 @@ export default function BookingWidget({ car }) {
       userId: session.user.id,
       userName: session.user.name,
       userEmail: session.user.email,
+      email: session.user.email, // Required for backend GET /bookings query
       bookingDate: new Date().toISOString(),
       status: "confirmed",
     };
